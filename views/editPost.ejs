@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Edit Post</title>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+  <body class="topPadding">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="/home">touchNet</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/user/<%= currentUser._id %>"><%= currentUser.name %></a>
+            </li>
+						<li class="nav-item">
+              <a class="nav-link" href="/messages">Messages
+								<% if(currentUser.unreadMessages !== 0){ %>
+									<span class="badge badge-pill badge-primary"><%= currentUser.unreadMessages %></span>
+								<% } %>
+							</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/touchout">touchOut <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            </li>
+          </ul>
+					<a href="/post/new" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> Add post</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- body -->
+		<div class="container">
+
+			<% if(success && success.length > 0){ %>
+				<div class="alert alert-primary" role="alert">
+					<%= success %>
+				</div>
+			<% } %>
+			<% if(error && error.length > 0){ %>
+				<div class="alert alert-danger" role="alert">
+					<%= error %>
+				</div>
+			<% } %>
+
+			<form enctype="multipart/form-data" action="/post/<%= post._id %>?_method=PUT" method="post" class="addPostForm col-lg-10 col-md-8">
+			  <div class="form-group">
+			    <label for="addPostInput">Enter the post</label>
+			    <textarea type="text" name="postContent" class="form-control" id="addPostInput"><%= post.postContent %></textarea>
+				</div>
+				<div class="form-group">
+					<label for="addPostImageInput">Select image to post</label>
+					<input type="file" name="picture" class="form-control-file" accept="image/*" id="addPostImageInput">
+				</div>
+			  <button type="submit" class="btn btn-primary">Update post</button>
+			</form>
+
+		</div>
+
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/popper.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+  </body>
+</html>

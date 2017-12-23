@@ -1,0 +1,146 @@
+html, body {
+  height: 100%;
+}
+
+body.index {
+  background-image: url("../images/indexBackground.jpg");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.touchUpForm, .addPostForm {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.touchUpForm {
+  margin-top: 20%;
+}
+
+.addPostForm {
+  margin-top: 15%;
+}
+
+body.topPadding {
+  min-height: 10rem;
+  padding-top: 4rem;
+}
+
+.card {
+  border-top-width: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-bottom: : 1px solid rgba(0,0,0,.125);;
+  margin-top: 1rem;
+}
+
+.card-body {
+  padding: 0 1rem 2px 1rem;
+}
+
+.card-title {
+  margin-bottom: .30rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.showPost {
+  border-bottom: thin solid black;
+}
+
+.showPost .card-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.showPost .card-text {
+  font-size: 1.2rem;
+}
+
+.card-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card-text {
+  margin-bottom: .30rem;
+  color: rgba(0,0,0,0.6);
+}
+
+body nav+.container {
+  margin-bottom: 10px;
+}
+
+.card .btn-sm {
+  padding: 0 3px;
+}
+
+form em {
+  color: yellow;
+}
+
+body.index .alert {
+  margin-top: 4rem;
+}
+
+.alert {
+  margin-top: 1rem;
+}
+
+.jumbotron {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.jumbotron .display-3 {
+  font-size: 3em;
+}
+
+.jumbotron img {
+  height: 10rem;
+}
+
+.jumbotron table {
+  width: 100%;
+}
+
+.textAlignRight {
+  text-align: right;
+}
+
+.showPostComment .card-title {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.showPostComment .card-text {
+  font-size: 1rem;
+}
+
+.addCommentCard {
+  border-bottom: 0;
+}
+
+#chatMessage {
+  display: inline;
+}
+
+#chatMessagesMainUser {
+  font-weight: 600;
+  font-size: 2rem;
+}
+
+#chatMessagesMainUser+div.container {
+  margin-bottom: 4rem;
+}
+
+.numberOfComments {
+  margin-right: 1rem;
+}
+
+.dateCreated {
+  color: rgba(0,0,0,0.6);
+  font-size: 0.7em; 
+}

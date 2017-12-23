@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title><%= messageUser.name %> messages</title>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+  <body class="topPadding">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="/home">touchNet</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/user/<%= currentUser._id %>"><%= currentUser.name %></a>
+            </li>
+						<li class="nav-item">
+              <a class="nav-link" href="/messages">Messages
+								<% if(currentUser.unreadMessages !== 0){ %>
+									<span class="badge badge-pill badge-primary"><%= currentUser.unreadMessages %></span>
+								<% } %>
+							</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/touchout">touchOut <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            </li>
+          </ul>
+					<a href="/post/new" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> Add post</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- body -->
+		<div class="container">
+
+			<% if(success && success.length > 0){ %>
+				<div class="alert alert-primary" role="alert">
+					<%= success %>
+				</div>
+			<% } %>
+			<% if(error && error.length > 0){ %>
+				<div class="alert alert-danger" role="alert">
+					<%= error %>
+				</div>
+			<% } %>
+
+			<h1 id="chatMessagesMainUser"><%= messageUser.name %></h1>
+
+			<div class="container" id="messageContainer">
+
+				<% previousMessages.forEach(function(previousMessage){ %>
+					<div class="card showPostComment">
+						<div class="card-body">
+							<h6 class="card-title"><a href="/user/<%= previousMessage.author.id %>/view"><%= previousMessage.author.name %></a></h6>
+							<p class="card-text"><%= previousMessage.messageText %></p>
+						</div>
+					</div>
+				<% }); %>
+
+			</div>
+
+			<form class="container fixed-bottom" method="post">
+			  <input type="text" name="chatMessage" class="form-control col-10" id="chatMessage" placeholder="Enter message here" required=""><button type="submit" class="btn btn-primary col-2">Send</button>
+			</form>
+
+		</div>
+
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/popper.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				window.scrollTo(0, document.body.scrollHeight);
+
+				var usersId = ["<%= currentUser._id.toString() %>", "<%= messageUser._id.toString() %>"];
+				usersId.sort();
+				var chatRoom = usersId[0] + usersId[1];
+
+				var socket = io();
+				socket.emit('subscribe', chatRoom);
+
+				$('form').submit(function(){
+					var data = {
+						chatRoom: chatRoom,
+						currentUser : {
+							id : '<%= currentUser._id %>',
+							name : '<%= currentUser.name %>'
+						},
+						messageUser : {
+							id : '<%= messageUser._id %>',
+							name : '<%= messageUser.name %>'
+						},
+						message: $('#chatMessage').val()
+					};
+					socket.emit('chat message', data);
+					$('#chatMessage').val('');
+					return false;
+				});
+				socket.on('chat message', function(message){
+					var messageFormatted = '<div class="card showPostComment">' +
+														'<div class="card-body">' +
+															'<h6 class="card-title"><a href="/user/' + message.messageAuthorId + '/view">' + message.messageAuthorName + '</a></h6>' +
+															'<p class="card-text">' + message.messageText + '</p>' +
+														'</div>' +
+													'</div>';
+					$('#messageContainer').append(messageFormatted);
+					window.scrollTo(0, document.body.scrollHeight);
+				});
+			});
+		</script>
+  </body>
+</html>
